@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YAHYA GAMING PRO - تحميل ألعاب PPSSPP</title>
+  
+  <!-- Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* Use Cairo font for the entire page */
+    body {
+      font-family: 'Cairo', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar for a better look */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0ea5e9;
+    }
+    
+    /* Gradient text class */
+    .text-gradient {
+      background-image: linear-gradient(45deg, #38bdf8, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+
+    /* Animation for the modal */
+    .modal-enter {
+        animation: fadeIn 0.3s ease-out;
+    }
+    .modal-leave {
+        animation: fadeOut 0.3s ease-in;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: scale(0.95); }
+    }
+
+    /* Snowflake animation */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 9999;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(100vh) translateX(30px);
+        opacity: 0.1;
+      }
+    }
+
+    /* Back to top button styles */
+    #back-to-top {
+        transition: opacity 0.3s, transform 0.3s;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+  <!-- Snowfall Effect Container -->
+  <div id="snow-container"></div>
+
+  <!-- Header -->
+  <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-40 shadow-lg shadow-sky-500/10">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-2xl md:text-3xl font-black text-white tracking-wider">
+        <span class="text-sky-400">YAHYA</span> GAMING
+      </h1>
+      <div class="flex items-center gap-2">
+        <button id="about-btn" class="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-200 hover:scale-105 text-sm md:text-base">
+          <i class="fas fa-info-circle mr-1"></i> عن الموقع
+        </button>
+        <a href="https://play.google.com/store/apps/details?id=org.ppsspp.ppsspp" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-200 hover:scale-105 text-sm md:text-base">
+          <i class="fab fa-google-play mr-1"></i> تحميل المحاكي
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    
+    <!-- Title & Search -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-extrabold"><span class="text-gradient">مكتبة ألعاب PPSSPP</span></h2>
+      <p class="text-gray-400 mt-2 text-lg">أفضل الألعاب بجودة عالية وبروابط تحميل مباشرة</p>
+      
+      <!-- Search Bar -->
+      <div class="mt-8 max-w-2xl mx-auto">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <i class="fas fa-search text-gray-500"></i>
+          </span>
+          <input type="text" id="search-input" placeholder="ابحث عن لعبة..." class="w-full bg-gray-800 border border-gray-700 text-white rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+        </div>
+      </div>
+    </div>
+
+    <!-- Games Grid -->
+    <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Game cards will be inserted here by JavaScript -->
+    </div>
+    <div id="no-results" class="text-center text-gray-400 text-xl py-16 hidden">
+        <i class="fas fa-gamepad text-4xl mb-4"></i>
+        <p>عذراً، لم يتم العثور على ألعاب تطابق بحثك.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 border-t border-gray-800 mt-12">
+    <div class="container mx-auto px-4 py-8 text-center text-gray-400">
+      <h3 class="text-2xl font-bold text-white mb-4">YAHYA GAMING PRO</h3>
+      <p class="mb-4">شكراً لزيارتكم! تواصل معي عبر المنصات التالية:</p>
+      <div class="flex justify-center items-center gap-6 mb-6">
+        <a href="https://www.facebook.com/profile.php?id=100093600416081" target="_blank" class="text-2xl hover:text-sky-400 transition-colors"><i class="fab fa-facebook"></i></a>
+        <a href="mailto:yahyamadera76@gmail.com" class="text-2xl hover:text-sky-400 transition-colors"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/22236845038" target="_blank" class="text-2xl hover:text-sky-400 transition-colors"><i class="fab fa-whatsapp"></i></a>
+      </div>
+      <p class="text-sm">&copy; 2024 YAHYA GAMING PRO. جميع الحقوق محفوظة.</p>
+    </div>
+  </footer>
+
+  <!-- About Modal -->
+  <div id="about-modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center p-4 hidden">
+    <div class="bg-gray-800 rounded-2xl shadow-2xl shadow-sky-500/20 w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 border border-gray-700 modal-enter">
+      <!-- Modal Header -->
+      <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-700">
+        <h3 class="text-2xl font-bold text-sky-400">حول الموقع</h3>
+        <button id="close-modal-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+      </div>
+
+      <!-- Modal Content -->
+      <div>
+        <!-- Site Quality -->
+        <div class="mb-6">
+          <h4 class="text-xl font-bold text-white mb-2"><i class="fas fa-star text-yellow-400 mr-2"></i>جودة الألعاب</h4>
+          <p class="text-gray-300 leading-relaxed">
+            نحن في YAHYA GAMING PRO نلتزم بتوفير أفضل تجربة ممكنة للاعبين. كل الألعاب المتوفرة على موقعنا تم اختيارها بعناية وتجربتها للتأكد من أنها تعمل بكفاءة على محاكي PPSSPP. نقدم لكم روابط تحميل مباشرة وموثوقة لضمان سهولة الوصول إلى ألعابكم المفضلة بدون أي عناء.
+          </p>
+        </div>
+
+        <!-- About Me -->
+        <div class="mb-6">
+          <h4 class="text-xl font-bold text-white mb-3"><i class="fas fa-user-circle text-green-400 mr-2"></i>عني</h4>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-4">
+              <i class="fab fa-facebook text-2xl text-blue-500 w-6 text-center"></i>
+              <a href="https://www.facebook.com/profile.php?id=100093600416081" target="_blank" class="text-gray-300 hover:text-sky-400 transition-colors">حسابي الرسمي على فيسبوك</a>
+            </li>
+            <li class="flex items-center gap-4">
+              <i class="fas fa-envelope text-2xl text-red-500 w-6 text-center"></i>
+              <span class="text-gray-300">yahyamadera76@gmail.com</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <i class="fab fa-whatsapp text-2xl text-green-500 w-6 text-center"></i>
+              <span class="text-gray-300" dir="ltr">+222 36 84 50 38</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Financial Support -->
+        <div>
+          <h4 class="text-xl font-bold text-white mb-2"><i class="fas fa-hand-holding-usd text-yellow-500 mr-2"></i>الدعم المادي</h4>
+          <p class="text-gray-300 leading-relaxed">
+            إذا أعجبك المحتوى الذي أقدمه وترغب في دعم استمرارية الموقع وتطويره، يمكنك تقديم الدعم المادي عبر الإيميل التالي. كل دعم، مهما كان بسيطاً، هو محل تقدير كبير!
+          </p>
+          <p class="mt-3 bg-gray-900 p-3 rounded-lg text-center font-mono text-sky-300">ystory176@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="fixed bottom-5 right-5 bg-sky-500 hover:bg-sky-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-xl opacity-0 transform translate-y-4 z-30">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // --- Data for Game Cards ---
+    const games = [
+        // --- NEW CARD ADDED HERE ---
+        {
+          img: 'https://i.ibb.co/PzWMYNjH/Screenshot-PPSSPP.jpg',
+          title: 'eFootball 2024',
+          size: 'ملفات متعددة',
+          links: {
+            game: 'https://www.mediafire.com/file/dcc6kqmd9essp6h/GAME_eFootball.zip/file',
+            textures: 'https://www.mediafire.com/file/yppilim06a1yfi7/TEXTURES_eFootball.zip/file',
+            savedata: 'https://www.mediafire.com/file/ft0ubvlpa4iw5iq/SAVEDATA_eFootball.zip/file'
+          }
+        },
+        // --- End of new card ---
+        {img: 'https://i.ibb.co/RkGJpnRB/1754239180379.jpg', title: 'MTX Mototrax', size: '70MB', link: 'https://www.mediafire.com/file/lfol2rlokko0gkq/MTX_MototraX_%25281%2529.7z/file'},
+        {img: 'https://i.ibb.co/6cfkmL2z/1754208352561.jpg', title: 'Kao Challengers', size: '358MB', link: 'https://www.mediafire.com/file/f6x5uqimpyiizuc/Kao_Challengers_%2528PSP%2529.zip/file'},
+        {img: 'https://i.ibb.co/hR7GdMhd/1754208212680.jpg', title: 'Scooby Doo! Who\'s Watching Who', size: '398MB', link: 'https://www.mediafire.com/file/0hf2h5elovqbwsk/Scooby-Doo%2528PSP%2529.zip/file'},
+        {img: 'https://i.ibb.co/LzT4sVbw/1754207955517.jpg', title: 'The Sims 2 Pets', size: '694MB', link: 'https://www.mediafire.com/file/8wc9vxrp6q66dyd/Sims2_mascotas%2528Europe%2529.7z/file'},
+        {img: 'https://i.ibb.co/dwJcDNh2/1754207364781.jpg', title: 'PES 20', size: '568MB', link: 'https://www.mediafire.com/file/hw3u9kna1hgv0g2/PES_2020_PSP_Camera_PS4_LINK_BY_M_PRO_GAMING.zip/file'},
+        {img: 'https://i.ibb.co/sJ3cDXnn/1754207132133.jpg', title: 'Crash Tag Team', size: '682MB', link: 'https://www.mediafire.com/file/ewall3i7f1hf924/Crash_Tag_Team_Racing%2528PSP%2529%255BEspa%25C3%25B1ol%255D.7z/file'},
+        {img: 'https://i.ibb.co/hJjcZk9D/1754206614128.jpg', title: 'UP', size: '239MB', link: 'https://www.mediafire.com/file/ngis5gbd5u2mny4/Up_%2528Juego_en_Espa%25C3%25B1ol%2529.7z/file'},
+        {img: 'https://i.ibb.co/JWxssKkn/1754206472239.jpg', title: 'King Kong', size: '438MB', link: 'https://www.mediafire.com/file/08z6wgdp9rx3yq2/King_Kong%2528PSP%2529.zip/file', password: 'GAMEBOI'},
+        {img: 'https://i.ibb.co/Tx050WHz/1754206174073.jpg', title: 'Family Guy Video Game', size: '493MB', link: 'https://www.mediafire.com/file/rwmdwyl9gry5s2d/Family_Guy_Video_Game%2528PSP%2529.7z/file'},
+        {img: 'https://i.ibb.co/kCSK1fD/1754205935079.jpg', title: 'MONSTER HUNTER', size: '288MB', link: 'https://www.mediafire.com/file/tho1di0wo0v4jdz/MonsterHunter_Freedom.7z/file%2580%2594navy%2Bblue%2Bdownload%2Bbutton%2Bwith_5587148.png', password: 'GAMEBOI'},
+        {img: 'https://i.ibb.co/Q7NfJkkk/1754205752861.jpg', title: 'Ford Racing-off Road', size: '89MB', link: 'http://www.mediafire.com/file/lpdvujr0nqzuw3j/Ford_Racing_-_Off_Road.7z/file'},
+        {img: 'https://i.ibb.co/39c14dDj/1754205610405.jpg', title: 'DBZ shin Budokai 8', size: '264MB', link: 'https://www.mediafire.com/file/9p4ww69euyj5gx1/DRAGON_BALL_Z_SHIN_BUDOKAI_8_BY_TV_.7z/file'},
+        {img: 'https://i.ibb.co/nNJfPCfj/1754205396360.jpg', title: 'Ben 10 Ultimate Alien', size: '463MB', link: 'https://www.mediafire.com/file/bjrvef8flj2tz5t/Ben_10__Ultimate_Alien_-_Cosmic_Destruction_by_Gamer_Spark_.zip/file'},
+        {img: 'https://i.ibb.co/Swb1kWNq/1754205205481.jpg', title: 'Cars 2', size: '102MB', link: 'https://www.mediafire.com/file/dtn1r2xva6lafah/Cars_2_Game_By_CKB.7z/file', password: 'CARS 2 BY CKB'},
+        {img: 'https://i.ibb.co/BHVffxtp/1754205073597.jpg', title: 'NFS undercover', size: '218MB', link: 'https://www.mediafire.com/file/cx9az1ky3brbdu7/Need_for_Speed_Undercover_PSP_Highly_Compressed_Game.7z/file'},
+        {img: 'https://i.ibb.co/WpMP9ZDY/1754204929856.jpg', title: 'N.O.V.A', size: '94MB', link: 'https://www.mediafire.com/file/axu9m5m1lvxnolg/JUEGO_NOVA.iso/file'},
+        {img: 'https://i.ibb.co/4whHzGVY/1754204769170.jpg', title: 'Harry Potter', size: '793MB', link: 'https://www.mediafire.com/file/hrgponk19a07mvt/Harry_Potter_Order_Of_The_Phoenix_%255Bmovgamezone.com%255D.iso/file'},
+        {img: 'https://i.ibb.co/G3nV3bkD/1754204515019.jpg', title: 'GOD OF THUNDER', size: '43MB', link: 'http://www.mediafire.com/file/xt2jpdenm4knpep/Days_of_Thunder_%2528by_s4ka%2529.zip/file'},
+        {img: 'https://i.ibb.co/2YWfyhz7/1754204353515.jpg', title: 'NBA', size: '367MB', link: 'https://www.mediafire.com/file/39kxap0wu6ajfy5/Super_GamerX_NBA_Ballers_Rebound.7z/file'},
+        {img: 'https://i.ibb.co/7JgF5hhg/1754204175776.jpg', title: 'RURSUIT FORCE', size: '532MB', link: 'https://www.mediafire.com/file/k194r3nenyioosz/MADE_SGX_Pursuit_Force.7z/file'},
+        {img: 'https://i.ibb.co/4ycX8pC/1754203627833.jpg', title: 'WARRIORS OROCHI', size: '128MB', link: 'https://www.mediafire.com/file/sms64buz08igmpu/WarriorsOrochi%28MAC%29PSPISOHighlyCompressed.7z/file', password: 'SANDYGAMER'},
+        {img: 'https://i.ibb.co/WpFF32Bd/1754203487071.jpg', title: 'BEOWLF', size: '79MB', link: 'https://www.mediafire.com/file/nx6nqwqjs7d8id2/Super+GamerX+Vinay+(Beowulf_The_Game).7z/file'},
+        {img: 'https://i.ibb.co/ds7Gg3dq/1754203226917.jpg', title: 'MOTOSTORM', size: '403MB', link: 'https://www.mediafire.com/file/cun0by74tkjomz4/Motorstorm_artic_edge_Supergamerx.rar/file'},
+        {img: 'https://i.ibb.co/qQFrnD3/1754203114876.jpg', title: 'SYPHON FILTER', size: '39MB', link: 'https://www.mediafire.com/file/a32oj9m2zonxd7d/Syphon+Filter+-+Combat+Ops.7z/file'},
+        {img: 'https://i.ibb.co/zh11rdWY/1754202971958.jpg', title: 'DEAD SPACE', size: '160MB', link: 'https://www.mediafire.com/file/n7eilqa0uoic8ql/DEADSPACE_v1.2.0_by_SGX.7z/file'},
+        {img: 'https://i.ibb.co/pBmXTPMd/1754202714784.jpg', title: 'H X H WONDER', size: '150MB', link: 'https://www.mediafire.com/file/pa1aacwg4miyhsi/H.X.H_WONDER_ADV.BY-_AGE_OF_DROID_OR_DROIDGAMER'},
+        {img: 'https://i.ibb.co/4nVM5K39/1754202436145.jpg', title: 'PIRATES', size: '90MB', link: 'https://www.mediafire.com/file/ams1g3tgmpn430p/Pirates_Of_The_Caribbean_At_World%2527s_End_by_GAMEEMO.7z/file'},
+        {img: 'https://i.ibb.co/RTKkmKvX/1754202312818.jpg', title: 'AV ATAR', size: '109MB', link: 'https://www.mediafire.com/file/pafemlx8zjcidww/Avatar_-_The_Last_Airbender.7z/file'},
+        {img: 'https://i.ibb.co/GfW40jC8/1754202149625.jpg', title: 'BLACK ROCK SHOOTER', size: '1GB', link: 'https://www.mediafire.com/file/krebb9mwhhc0n9c/Black_Rock_Shooter_The_Game.iso/file'},
+        {img: 'https://i.ibb.co/rKtJcSqn/1754201881105.jpg', title: 'THE BIRTHDAY', size: '1.7GB', link: 'https://www.mediafire.com/file/lnjftfy14amg4d3/The_3rd_Birthday_Game.7z/file', password: 'bySTT'},
+        {img: 'https://i.ibb.co/jk1Y5chV/1754195864270.jpg', title: 'LINDEAD KNIGHTS', size: '393MB', link: 'https://www.mediafire.com/file/z8cwjen2hq6d688/FULL_ISO_Und3%2540d_Knights.iso/file?dkey=jhw0e5vr7f0&r=876'},
+        {img: 'https://i.ibb.co/Z6xwfLFh/1754201525343.jpg', title: 'BROTHERS IN ARMS', size: '600MB', link: 'https://www.mediafire.com/file/mwvwz9909wrrui6/BROTHERS_IN_ARMS_D_DAY_%2528BY_GAMER_KAPIL%2529.zip.001/file', password: 'gamer kapil'},
+        {img: 'https://i.ibb.co/3YSzCr6D/1754200896782.jpg', title: 'LANFEUST DE TROIE', size: '109MB', link: 'https://www.mediafire.com/file/qhwvx8lio4yfvvd/Lanfeust_of_Troy_%2528Europe%2529.7z/file'},
+        {img: 'https://i.ibb.co/tMWyMyLh/1754200640797.jpg', title: 'BEN 10 VILGAX', size: '175MB', link: 'https://www.mediafire.com/file/z3m62rs5fzv8x88/BEN_10_VILGAX_ATTACKS_BY_TECHNOLOGY_KING.7z/file'},
+        {img: 'https://i.ibb.co/m5Z06jgc/1754200515768.jpg', title: 'PES 2023 C19', size: '840MB', link: 'https://www.mediafire.com/file/yajsnfsu444t51y/eFootball_2023_PSP_vFinal_C19.iso/file'},
+        {img: 'https://i.ibb.co/0RMKkyKC/1754200267503.jpg', title: 'Demon Slayer', size: '58MB', link: 'https://www.mediafire.com/file/1ae36lkgoj7qrng/Demon_Slayer_Andriod_%2528OFFLINE%2529.7z/file'},
+        {img: 'https://i.ibb.co/s9hzPzG0/1754200100620.jpg', title: 'NBA 2k5', size: '56MB', link: 'https://www.mediafire.com/file/p8qjkbw9h540j7l/%2528Vinay%2529_NBA_PSP_Game.7z/file'},
+        {img: 'https://i.ibb.co/Hf5MCvKZ/1754199954726.jpg', title: 'The Warriors', size: '1.51GB', link: 'https://www.mediafire.com/file/14zzpfhj353tnhz/The_Warriors%2528PSP%2529.zip/file'},
+        {img: 'https://i.ibb.co/cc21KNJ8/1754199798226.jpg', title: 'MOI MOCHE TE MECHANT', size: '199MB', link: 'https://www.mediafire.com/file/xvly6iti2i0pq4r/Despicable+Me+by+yt+anox+xixi.7z/file'},
+        {img: 'https://i.ibb.co/Rp7wZ6yy/1754199641078.jpg', title: 'RACHET ET CLANCK', size: '47MB', link: 'https://www.mediafire.com/file/3rc8cg3oqgqv30f/Ratchet_and_Clank_size_matters_by_GAMEEMO.7z/file'},
+        {img: 'https://i.ibb.co/zW2vhPGW/1754199485085.jpg', title: 'SNOOPY VC THE RED BARON', size: '500MB', link: 'https://www.mediafire.com/file/lqmiivcpca2pfy7/Sn00py_Vs_The_Red_Bar0n_USA.iso/file'},
+        {img: 'https://i.ibb.co/FkBzJzdd/1754199332461.jpg', title: 'LES TOTER NINJA', size: '800MB', link: 'https://www.mediafire.com/file/s5l2ca26gj74n58/TMNT_-_Teenage_Mutant_Ninja_Turtles_%255Bmovgamezone.com%255D.cso/file'},
+        {img: 'https://i.ibb.co/rGYKtg2B/1754199119634.jpg', title: 'CRASH BANDICOOT', size: '94MB', link: 'http://www.mediafire.com/file/tf2t9msgkxbgksb/Crash_OTT_By_Zeno_Gamerz.7z/file'},
+        {img: 'https://i.ibb.co/ZzNzgjgR/1754198994635.jpg', title: 'NARUTO 4', size: '107MB', link: 'https://www.mediafire.com/download/mpp79wx6kfl68qf?dkey=fnr19t01z6z&r=1440'},
+        {img: 'https://i.ibb.co/MkqMm8m9/1754198843831.jpg', title: 'KING KONG', size: '34MB', link: 'https://www.mediafire.com/file/kr30zkey8oqss5f/KING+KONG+PSP+BY+SUPER+GAMERX.7z/file'},
+        {img: 'https://i.ibb.co/dJmQ8Q9N/1754198670412.jpg', title: 'FATE', size: '431MB', link: 'http://www.mediafire.com/file/hl5sdv1xfuuedve/Fate-Unlimited+Codes-NPUH-10009.rar/file'},
+        {img: 'https://i.ibb.co/5gQrBfsf/1754198527096.jpg', title: 'GTA VC STORES', size: '624MB', link: 'https://www.mediafire.com/file/1np27czkzh9d793/GTA+VICE+CITY+STORIES+ORIGINAL+BY+HAK.7z/file', password: 'GTA VCS V2 BY HAK'},
+        {img: 'https://i.ibb.co/C5sCWC9c/1754198353826.jpg', title: 'LITTLE NIGHTMARES', size: '1GB', link: 'https://www.mediafire.com/file/i3ml8aacciwd40f/littlenightmare_FULL_.apk/file'},
+        {img: 'https://i.ibb.co/PZVVXLRM/1754198150497.jpg', title: 'GTA 5 PPSSPP', size: '16MB', link: 'https://www.mediafire.com/file/9fegcx795z2y45i/GTA_5_for_PPSSPP.zip/file', password: '$ubscibe'},
+    ];
+
+    // --- JavaScript Logic ---
+    document.addEventListener('DOMContentLoaded', function() {
+      const gamesGrid = document.getElementById('games-grid');
+      const noResults = document.getElementById('no-results');
+      const searchInput = document.getElementById('search-input');
+      const backToTopBtn = document.getElementById('back-to-top');
+
+      // Function to render game cards
+      function renderGames(gamesToRender) {
+        gamesGrid.innerHTML = ''; // Clear existing games
+        if (gamesToRender.length === 0) {
+            noResults.classList.remove('hidden');
+        } else {
+            noResults.classList.add('hidden');
+        }
+
+        gamesToRender.forEach((game, index) => {
+          const passwordInfo = game.password 
+            ? `<div class="mt-2 p-2 bg-red-900/50 border border-red-500/50 rounded-md text-center flex items-center justify-between">
+                 <p class="text-xs text-yellow-300 font-mono">كلمة السر: ${game.password}</p>
+                 <button class="copy-password-btn bg-sky-600 hover:bg-sky-700 text-white text-xs py-1 px-2 rounded" data-password="${game.password}">
+                    <i class="fas fa-copy"></i>
+                 </button>
+               </div>` 
+            : '';
+          
+          // --- MODIFIED PART: Handle single or multiple links ---
+          let downloadButtonsHtml = '';
+          if (game.links) { // If the game has multiple links
+              downloadButtonsHtml = `
+                  <div class="mt-auto flex flex-col gap-2">
+                      <a href="${game.links.game}" target="_blank" class="w-full text-center bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center">
+                        <i class="fas fa-gamepad mr-2"></i> تحميل اللعبة
+                      </a>
+                      <a href="${game.links.textures}" target="_blank" class="w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center">
+                        <i class="fas fa-palette mr-2"></i> تحميل Textures
+                      </a>
+                      <a href="${game.links.savedata}" target="_blank" class="w-full text-center bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center">
+                        <i class="fas fa-save mr-2"></i> تحميل SaveData
+                      </a>
+                  </div>
+              `;
+          } else { // If the game has a single link
+              downloadButtonsHtml = `
+                  <a href="${game.link}" target="_blank" class="mt-auto w-full text-center bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg transition-all duration-200">
+                    <i class="fas fa-download mr-2"></i> تحميل اللعبة
+                  </a>
+              `;
+          }
+          // --- END OF MODIFIED PART ---
+
+          const card = `
+            <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 ease-in-out flex flex-col hover:shadow-sky-500/20">
+              <img src="${game.img}" alt="${game.title}" class="w-full h-48 object-cover" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/400x300/0f172a/38bdf8?text=Game+Image';">
+              <div class="p-4 flex flex-col flex-grow">
+                <h3 class="text-lg font-bold text-white truncate flex-grow">${game.title}</h3>
+                <p class="text-sm text-gray-400 mt-1 mb-3">الحجم: <span class="font-mono text-sky-400">${game.size}</span></p>
+                ${passwordInfo}
+                ${downloadButtonsHtml} 
+              </div>
+            </div>
+          `;
+          gamesGrid.innerHTML += card;
+        });
+        
+        addCopyPasswordListeners();
+      }
+
+      // Search functionality
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filteredGames = games.filter(game => 
+          game.title.toLowerCase().includes(searchTerm)
+        );
+        renderGames(filteredGames);
+      });
+
+      // Back to Top button functionality
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.remove('opacity-0', 'translate-y-4');
+        } else {
+          backToTopBtn.classList.add('opacity-0', 'translate-y-4');
+        }
+      });
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo(0, 0);
+      });
+
+      // Copy password functionality
+      function addCopyPasswordListeners() {
+          document.querySelectorAll('.copy-password-btn').forEach(button => {
+              button.addEventListener('click', (e) => {
+                  const password = e.currentTarget.dataset.password;
+                  // Using a fallback for clipboard API for broader compatibility
+                  const textArea = document.createElement("textarea");
+                  textArea.value = password;
+                  document.body.appendChild(textArea);
+                  textArea.focus();
+                  textArea.select();
+                  try {
+                      document.execCommand('copy');
+                      const originalIcon = e.currentTarget.innerHTML;
+                      e.currentTarget.innerHTML = '<i class="fas fa-check"></i>';
+                      setTimeout(() => {
+                          e.currentTarget.innerHTML = originalIcon;
+                      }, 1500);
+                  } catch (err) {
+                      console.error('Fallback: Oops, unable to copy', err);
+                  }
+                  document.body.removeChild(textArea);
+              });
+          });
+      }
+
+      // Modal control
+      const aboutBtn = document.getElementById('about-btn');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const aboutModal = document.getElementById('about-modal');
+      const modalContent = aboutModal.querySelector('div');
+
+      function openModal() {
+        aboutModal.classList.remove('hidden');
+        modalContent.classList.remove('modal-leave');
+        modalContent.classList.add('modal-enter');
+      }
+
+      function closeModal() {
+        modalContent.classList.remove('modal-enter');
+        modalContent.classList.add('modal-leave');
+        setTimeout(() => {
+            aboutModal.classList.add('hidden');
+        }, 300);
+      }
+
+      aboutBtn.addEventListener('click', openModal);
+      closeModalBtn.addEventListener('click', closeModal);
+      aboutModal.addEventListener('click', e => { if (e.target === aboutModal) closeModal(); });
+      document.addEventListener('keydown', e => { if (e.key === "Escape") closeModal(); });
+
+      // Snowfall effect
+      function createSnowflakes() {
+        const snowContainer = document.getElementById('snow-container');
+        const snowflakeCount = 50;
+        for (let i = 0; i < snowflakeCount; i++) {
+          const snowflake = document.createElement('div');
+          snowflake.className = 'snowflake';
+          const size = Math.random() * 4 + 1;
+          snowflake.style.width = `${size}px`;
+          snowflake.style.height = `${size}px`;
+          snowflake.style.left = `${Math.random() * 100}vw`;
+          snowflake.style.animationDuration = `${Math.random() * 5 + 5}s`;
+          snowflake.style.animationDelay = `${Math.random() * 5}s`;
+          snowContainer.appendChild(snowflake);
+        }
+      }
+      
+      // Initialize everything
+      renderGames(games);
+      createSnowflakes();
+    });
+  </script>
+
+</body>
+</html>
+
